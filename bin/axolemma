@@ -109,6 +109,12 @@ const questions = [
     name: 'type',
     message: blue('What generation algorithm would you like to use?'),
     choices: [
+      new Separator('-- Safezones --'),
+      'Sprawl TODO',
+      'Suburb TODO',
+      'Downtown TODO',
+      'Frontier TODO',
+      'Ruin TODO',
       new Separator('-- Mazes --'),
       'DividedMaze',
       'IceyMaze',
@@ -123,7 +129,7 @@ const questions = [
     ]
   },
 
-  /** Algorihm-specific settings **/
+  /** Algorithm-specific settings **/
 
   /** IceyMaze settings**/
   {
@@ -141,7 +147,7 @@ const questions = [
     default: 0
   },
 
-  /** Digger & Uniform settings**/
+  /** Digger & Uniform settings TODO: use measurements of minimum and maximum rather than just height/width**/
   {
     when: isMapType('Digger', 'Uniform'),
     type: 'input',
@@ -153,7 +159,7 @@ const questions = [
     filter: toInteger,
     validate(input, answers) {
       const {height} = answers
-      return (isPositiveNumber(input) && input < height) || `Please enter a numeric value that is less than ${height}.`
+      return (isPositiveNumber(input)) || `Please enter a positive numeric value.`
     }
   },
   {
@@ -165,7 +171,7 @@ const questions = [
       return blue(`[${type}] What will be the minimum height (y value) for each generated "room"?`)
     },
     validate(input, answers) {
-      const {roomHeightMaximum} = answers
+      const {roomHeightMinimum} = answers
       return (isPositiveNumber(input) && input < roomHeightMaximum - 1) || `Please enter a numeric value that is less than ${roomHeightMaximum - 1}.`
     },
     filter: toInteger
@@ -173,28 +179,28 @@ const questions = [
   {
     when: isMapType('Digger', 'Uniform'),
     type: 'input',
-    name: 'roomHeightMaximum',
+    name: 'roomWidthMaximum',
     message(answers) {
       const {type} = answers
       return blue(`[${type}] What will be the maximum width (x value) for each generated "room"?`)
     },
     filter: toInteger,
     validate(input, answers) {
-      const {height} = answers
-      return (isPositiveNumber(input) && input < height) || `Please enter a numeric value that is less than ${height}.`
+      const {width} = answers
+      return (isPositiveNumber(input)) || `Please enter a positive numeric value.`
     }
   },
   {
     when: isMapType('Digger', 'Uniform'),
     type: 'input',
-    name: 'roomHeightMinimum',
+    name: 'roomWidthMinimum',
     message(answers) {
       const {type} = answers
       return blue(`[${type}] What will be the minimum width (x value) for each generated "room"?`)
     },
     validate(input, answers) {
-      const {roomHeightMaximum, height} = answers
-      return (isPositiveNumber(input) && input < roomHeightMaximum - 1) || `Please enter a numeric value that is less than ${roomHeightMaximum - 1}.`
+      const {roomWidthMinimum} = answers
+      return (isPositiveNumber(input) && input < roomWidthMaximum - 1) || `Please enter a numeric value that is less than ${roomWidthMaximum - 1}.`
     },
     filter: toInteger
   },
@@ -275,7 +281,7 @@ const questions = [
     when(answers) {
       const {confirmedSettings} = answers;
 
-      // Cheap. Have it restart from beginning instead
+      // TODO: Cheap. Have it restart from beginning instead
       // or allow user to edit options directly using editor mode.
       if (!confirmedSettings) {
         console.log(red('Try, try again.'));
