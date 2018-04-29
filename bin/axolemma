@@ -158,7 +158,7 @@ const questions = [
     },
     filter: toInteger,
     validate(input, answers) {
-      const {height} = answers
+      const {roomHeightMaximum, height} = answers
       return (isPositiveNumber(input)) || `Please enter a positive numeric value.`
     }
   },
@@ -186,7 +186,7 @@ const questions = [
     },
     filter: toInteger,
     validate(input, answers) {
-      const {width} = answers
+      const {roomWidthMaximum, width} = answers
       return (isPositiveNumber(input)) || `Please enter a positive numeric value.`
     }
   },
